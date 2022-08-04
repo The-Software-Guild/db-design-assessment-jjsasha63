@@ -38,10 +38,8 @@ CREATE TABLE if not exists  orders (
     order_id    INT primary key auto_increment,
     order_price INT NOT NULL,
     order_date  DATE,
-    car_id int not null,
     person_id   INTEGER NOT NULL,
-    constraint fk_person_orders foreign key(person_id) references person(id),
-    constraint fk_car_orders foreign key(car_id) references car(car_id)
+    constraint fk_person_orders foreign key(person_id) references person(id)
 );
 
 
@@ -54,6 +52,17 @@ CREATE TABLE if not exists  employee (
     constraint fk_person_employee foreign key (person_id) references person(id),
     constraint fk_store_employee foreign key (store_id) references store(store_id)
 );
+
+create table if not exists order_details(
+order_id int not null,
+car_id int not null,
+unit_price double not null,
+quantity int default 1,
+constraint fk_order_orderDetails foreign key (order_id) references orders(order_id),
+constraint fk_car_orderDetails foreign key (car_id) references car(car_id),
+constraint primary key pk_order_details(order_id, car_id)
+);
+
 
 create index person_index
 on person(first_name, last_name);
